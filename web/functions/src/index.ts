@@ -1,8 +1,22 @@
-import * as v2 from 'firebase-functions/v2';
+const functions = require("firebase-functions");
+const firebase = require("firebase-admin");
+const serviceAccount = require("./permission.json");
 
-type indexable = { [key: string]: any };
-
-export const helloworld = v2.https.onRequest((req, res) => {
-  const name = req.params[0];
- const items: indexable ={}
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
 });
+
+const express = require("express");
+const app = express();
+const db = firebase.firestore();
+
+const cors = require("cors");
+app.use(cors({origin: true}));
+app.use(express.json());
+
+
+
+
+
+
+exports.v1 = functions.https.onRequest(app);
